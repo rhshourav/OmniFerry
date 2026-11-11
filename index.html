@@ -1,89 +1,282 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>OmniFerry: file and clipboard sharing for Windows and Android</title>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OmniFerry: send files and clipboard between Windows and Android</title>
 <meta name="description" content="Fast, zero-setup file and clipboard sharing between Windows and Android over your local network. Encrypted, resumable, 1-to-many.">
-<meta name="theme-color" content="#0b0b0f"><meta name="color-scheme" content="dark light">
-<link rel="icon" href="favicon.svg" type="image/svg+xml">
-<link rel="canonical" href="https://rhshourav.github.io/OmniFerry/">
-<meta property="og:type" content="website"><meta property="og:title" content="OmniFerry">
-<meta property="og:description" content="Files and clipboard, Windows to Android. Instantly. Encrypted, resumable, no setup.">
-<meta property="og:image" content="https://rhshourav.github.io/OmniFerry/assets/og.png"><meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='88'>⛴️</text></svg>">
+<script>document.documentElement.classList.add('js');try{var t=localStorage.getItem('of-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <style>
-:root{--bg:#f5f5f7;--card:#fff;--c2:#ededf3;--tx:#1d1d1f;--sub:#6e6e78;--ln:#e1e1e9;--m:#19a67c;--l:#7c5ce6;--p:#e8744a;--fg:#fff}
-@media (prefers-color-scheme:dark){:root{--bg:#0b0b0f;--card:#16161c;--c2:#1f1f28;--tx:#f5f5f7;--sub:#9a9aa8;--ln:#2a2a35;--m:#7fe5c4;--l:#b9a8ff;--p:#ffb59b;--fg:#06241b}}
-*{box-sizing:border-box}html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--tx);font:17px/1.55 "Segoe UI Variable Text",-apple-system,"SF Pro Text","Segoe UI",Inter,sans-serif;overflow-x:hidden;
-background-image:radial-gradient(60vw 50vh at 12% -5%,color-mix(in srgb,var(--m) 22%,transparent),transparent),radial-gradient(55vw 45vh at 95% 8%,color-mix(in srgb,var(--l) 20%,transparent),transparent);background-repeat:no-repeat}
-a{color:inherit}.w{max-width:1040px;margin:auto;padding:0 22px}
-nav{display:flex;align-items:center;gap:22px;padding:18px 0}nav b{font-size:19px;letter-spacing:-.02em;display:flex;align-items:center;gap:10px;margin-right:auto}
-nav img{width:30px;height:30px}nav a.l{color:var(--sub);text-decoration:none;font-size:15px}nav a.l:hover{color:var(--tx)}
-@media(max-width:640px){nav a.l{display:none}}
-.hero{text-align:center;padding:64px 0 36px}
-h1{font-size:clamp(38px,7vw,72px);line-height:1.04;letter-spacing:-.035em;margin:0 0 18px;font-weight:700}
-h1 span{background:linear-gradient(95deg,var(--m),var(--l) 60%,var(--p));-webkit-background-clip:text;background-clip:text;color:transparent}
-.lead{color:var(--sub);font-size:clamp(17px,2.2vw,21px);max-width:620px;margin:0 auto 30px}
-.btn{display:inline-flex;align-items:center;gap:9px;padding:13px 24px;border-radius:99px;font-weight:600;text-decoration:none;font-size:16px;border:0;cursor:pointer;
-transition:transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .3s}
-.btn:hover{transform:scale(1.04)}.btn:active{transform:scale(.95)}
-.pri{background:var(--m);color:var(--fg);box-shadow:0 10px 30px -10px var(--m)}.sec{background:var(--c2);color:var(--sub);cursor:default}.sec:hover{transform:none}
-.row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}.meta{color:var(--sub);font-size:14px;margin-top:14px;min-height:22px}
-.mock{margin:44px auto 0;max-width:640px;background:var(--card);border:1px solid var(--ln);border-radius:26px;padding:22px;text-align:left;box-shadow:0 40px 80px -40px rgba(0,0,0,.45)}
-.mh{display:flex;gap:14px;align-items:center}.ic{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--m) 18%,transparent);color:var(--m);font-weight:700}
-.mh div b{display:block}.mh small{color:var(--sub)}.bar{height:9px;border-radius:9px;background:var(--c2);margin:18px 0 8px;overflow:hidden}
-.bar i{display:block;height:100%;width:0;border-radius:9px;background:linear-gradient(90deg,var(--l),var(--m))}
-.st{display:flex;justify-content:space-between;font-size:14px;color:var(--sub)}.st b{color:var(--tx)}
-.map{display:grid;grid-template-columns:repeat(40,1fr);gap:3px;margin-top:16px}.map i{height:20px;border-radius:4px;background:var(--c2);transition:background .35s,transform .35s}.map i.on{background:var(--m);transform:scaleY(1.0)}
-h2{font-size:clamp(28px,4vw,42px);letter-spacing:-.03em;margin:0 0 10px;text-align:center}.sub{color:var(--sub);text-align:center;max-width:560px;margin:0 auto 34px}
-section{padding:70px 0 0}.g{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:16px}
-.c{background:var(--card);border:1px solid var(--ln);border-radius:22px;padding:24px;transition:transform .45s cubic-bezier(.34,1.56,.64,1),border-color .3s}
-.c:hover{transform:translateY(-5px);border-color:var(--m)}.c h3{margin:0 0 6px;font-size:18px;letter-spacing:-.01em}.c p{margin:0;color:var(--sub);font-size:15.5px}
-.c .n{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-weight:700;margin-bottom:14px;background:color-mix(in srgb,var(--l) 20%,transparent);color:var(--l)}
-details{background:var(--card);border:1px solid var(--ln);border-radius:18px;padding:16px 20px;margin-bottom:10px}summary{cursor:pointer;font-weight:600}details p{color:var(--sub);margin:10px 0 0}
-footer{margin-top:90px;border-top:1px solid var(--ln);padding:28px 0 40px;color:var(--sub);font-size:14px;display:flex;flex-wrap:wrap;gap:8px 22px}footer a{text-decoration:none}footer a:hover{color:var(--tx)}
-.rv{opacity:0;transform:translateY(18px);transition:opacity .7s,transform .7s cubic-bezier(.2,.8,.2,1)}.rv.in{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto}.rv{opacity:1;transform:none}}
-</style></head><body><div class="w">
-<nav><b><img src="favicon.svg" alt="">OmniFerry</b><a class="l" href="#features">Features</a><a class="l" href="#how">How it works</a><a class="l" href="#faq">FAQ</a>
-<a class="l" href="https://github.com/rhshourav/OmniFerry/tree/main/docs">Docs</a></nav>
-<header class="hero">
-<h1>Move anything between<br>your devices. <span>Instantly.</span></h1>
-<p class="lead">Files and clipboard between Windows and Android, straight over your own Wi-Fi. No accounts, no cloud, no cables, no setup.</p>
-<div class="row"><a id="dl" class="btn pri" href="https://github.com/rhshourav/OmniFerry/releases">Download for Windows</a><span class="btn sec">Android: coming soon</span></div>
-<div class="meta" id="ver">Windows 10 and 11, x64</div>
-<div class="mock" aria-hidden="true"><div class="mh"><div class="ic">&#8593;</div><div><b>holiday-footage-4k.mov</b><small>To Pixel 8 Pro &middot; 3.4 GB</small></div></div>
-<div class="bar"><i id="bar"></i></div><div class="st"><span><b id="sp">0 MB/s</b> &middot; 4 lanes</span><span id="pc">0%</span></div><div class="map" id="map"></div></div>
-</header>
-<section id="features"><h2>Built to feel instant</h2><p class="sub">Every detail is tuned for speed, reliability and calm.</p><div class="g">
-<div class="c rv"><h3>Zero setup</h3><p>Devices on the same Wi-Fi find each other automatically. Bluetooth and manual address are there if your router blocks discovery.</p></div>
-<div class="c rv"><h3>Saturates your Wi-Fi</h3><p>Each file moves over several parallel encrypted connections, split into checked chunks.</p></div>
-<div class="c rv"><h3>Never loses its place</h3><p>Pause, resume, auto-retry. A dropped connection or a restarted app continues from the exact chunk.</p></div>
-<div class="c rv"><h3>One to many</h3><p>Select several devices and send to all at once. Whole folders keep their structure.</p></div>
-<div class="c rv"><h3>Clipboard sync</h3><p>Copy on one device, paste on another. Text and images, paired devices only.</p></div>
-<div class="c rv"><h3>No app? No problem</h3><p>Show a QR code. A phone opens a web page to upload and download in the browser.</p></div></div></section>
-<section id="how"><h2>Three steps</h2><p class="sub">Nothing to configure.</p><div class="g">
-<div class="c rv"><div class="n">1</div><h3>Open OmniFerry</h3><p>On both devices, on the same network.</p></div>
-<div class="c rv"><div class="n">2</div><h3>Pick a device</h3><p>Drop files or a folder on its card, or select several.</p></div>
-<div class="c rv"><div class="n">3</div><h3>Approve once</h3><p>Accept the request. Trust the device to skip prompts next time.</p></div></div></section>
-<section><h2>Private by design</h2><p class="sub">There is no server. Your data goes directly between your devices, encrypted with TLS. Devices are pinned by certificate fingerprint, unknown devices must be approved, and received file names are sanitised. Read the <a href="https://github.com/rhshourav/OmniFerry/blob/main/docs/security.md">security notes</a>, including the honest limitations.</p></section>
-<section id="faq"><h2>Questions</h2><p class="sub"></p>
-<details><summary>A device doesn't show up</summary><p>Check both are on the same Wi-Fi. Guest networks and "AP isolation" block discovery. Use Connect by IP on the Devices page, or turn on Bluetooth discovery.</p></details>
-<details><summary>Windows Firewall asked something</summary><p>Allow OmniFerry on Private networks, otherwise other devices cannot reach your PC.</p></details>
-<details><summary>Does it use the internet?</summary><p>No. Transfers stay on your local network.</p></details>
-<details><summary>Is it free?</summary><p>Yes, free to use. The source code is not published; the protocol is documented so compatible apps can be built.</p></details></section>
-<footer><span>&copy; 2026 rhshourav</span><a href="https://github.com/rhshourav/OmniFerry/releases">Releases</a><a href="https://github.com/rhshourav/OmniFerry/blob/main/CHANGELOG.md">Changelog</a>
-<a href="https://github.com/rhshourav/OmniFerry/tree/main/docs">Docs</a><a href="https://github.com/rhshourav/OmniFerry/blob/main/PRIVACY.md">Privacy</a>
-<a href="https://github.com/rhshourav/OmniFerry/blob/main/SECURITY.md">Security</a><a href="https://github.com/rhshourav/OmniFerry/issues/new/choose">Report a problem</a></footer></div>
+:root{--bg:#f6f4ff;--ink:#1d1d1f;--mut:#6a6a73;--card:rgba(255,255,255,.64);--line:rgba(60,40,140,.09);--lav:#cdbcff;--mint:#b4f0da;--peach:#ffd1bc;--sky:#bde1ff;--pink:#ffc7e1;--acc:#7a68f0;--sh:0 24px 60px -24px rgba(90,70,200,.35);--ease:cubic-bezier(.22,1,.36,1);--spring:cubic-bezier(.34,1.56,.64,1)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#0c0b13;--ink:#f5f5f7;--mut:#a3a3b0;--card:rgba(255,255,255,.06);--line:rgba(255,255,255,.09);--acc:#a99dff;--sh:0 24px 60px -24px #000}}
+:root[data-theme=dark]{--bg:#0c0b13;--ink:#f5f5f7;--mut:#a3a3b0;--card:rgba(255,255,255,.06);--line:rgba(255,255,255,.09);--acc:#a99dff;--sh:0 24px 60px -24px #000}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font:17px/1.5 -apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--acc);outline-offset:3px;border-radius:12px}
+.blobs i{position:fixed;width:46vmax;height:46vmax;border-radius:50%;filter:blur(90px);opacity:.55;z-index:-1;animation:drift 22s ease-in-out infinite alternate;pointer-events:none}
+.blobs i:nth-child(1){background:var(--lav);top:-18%;left:-12%}
+.blobs i:nth-child(2){background:var(--mint);top:28%;right:-16%;animation-delay:-6s}
+.blobs i:nth-child(3){background:var(--peach);bottom:-22%;left:18%;animation-delay:-12s}
+.blobs i:nth-child(4){background:var(--sky);top:4%;right:22%;width:28vmax;height:28vmax;animation-delay:-3s}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .blobs i{opacity:.2}}
+:root[data-theme=dark] .blobs i{opacity:.2}
+@keyframes drift{to{transform:translate(8vw,6vh) scale(1.15)}}
+.orbs i{position:fixed;bottom:-140px;left:var(--x);width:var(--s);height:var(--s);border-radius:50%;z-index:-1;pointer-events:none;opacity:0;background:radial-gradient(circle at 32% 30%,rgba(255,255,255,.85),var(--c) 45%,transparent 72%);animation:rise var(--t) linear infinite;animation-delay:var(--d)}
+@keyframes rise{0%{transform:translate3d(0,0,0);opacity:0}12%{opacity:.6}50%{transform:translate3d(var(--w),-65vh,0)}88%{opacity:.6}100%{transform:translate3d(0,-135vh,0);opacity:0}}
+.waves{position:fixed;left:0;right:0;bottom:0;height:170px;z-index:-1;pointer-events:none;overflow:hidden}
+.waves svg{position:absolute;left:0;bottom:0;width:200%;height:var(--h);animation:flow var(--t) linear infinite var(--d,normal),swell var(--s) ease-in-out infinite}
+.waves path{fill:var(--f);opacity:var(--o)}
+@keyframes flow{to{transform:translateX(-50%)}}
+@keyframes swell{50%{bottom:-12px}}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .waves{opacity:.4}}
+:root[data-theme=dark] .waves{opacity:.4}
+nav{position:fixed;bottom:calc(18px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);z-index:50;display:flex;align-items:center;gap:22px;padding:9px 10px 9px 20px;border-radius:999px;background:var(--card);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border:1px solid var(--line);box-shadow:var(--sh);animation:drop 1s var(--spring) both;white-space:nowrap}
+@keyframes drop{from{transform:translate(-50%,90px);opacity:0}}
+nav b{font-weight:650;letter-spacing:-.02em;display:flex;gap:8px;align-items:center}
+nav .l{font-size:14px;color:var(--mut);transition:color .2s}nav .l:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 24px;border-radius:999px;font:600 15px inherit;font-family:inherit;transition:transform .35s var(--spring),box-shadow .3s;border:0;cursor:pointer;color:var(--ink)}
+.btn.p{background:linear-gradient(135deg,#9a88ff,#6fb0ff);color:#fff;box-shadow:0 12px 30px -10px rgba(122,104,240,.8)}
+.btn.g{background:var(--card);border:1px solid var(--line);backdrop-filter:blur(20px)}
+.btn.s{padding:8px 16px;font-size:14px}
+.btn:hover{transform:translateY(-2px) scale(1.04)}.btn:active{transform:scale(.96)}
+#th{width:36px;height:36px;padding:0;font-size:16px}
+section{max-width:1120px;margin:auto;padding:110px 24px 40px}
+.hero{display:grid;grid-template-columns:1.05fr 1fr;gap:40px;align-items:center;min-height:100vh;padding-top:120px}
+h1{font-size:clamp(2.8rem,7vw,5.6rem);line-height:1;letter-spacing:-.045em;font-weight:720}
+h1 .l{display:block;animation:up 1.1s var(--ease) both;animation-delay:calc(.25s + var(--i)*.14s)}
+@keyframes up{from{opacity:0;transform:translateY(40px);filter:blur(10px)}}
+.gr{background:linear-gradient(110deg,#7a68f0,#4aa3f5,#35c79c,#f27bb5,#7a68f0);background-size:250%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:up 1.1s var(--ease) both,shift 9s linear infinite}
+@keyframes shift{to{background-position:250% 0}}
+.sub{font-size:clamp(1.05rem,2vw,1.3rem);color:var(--mut);max-width:30em;margin:24px 0 32px;animation:up 1.1s .75s var(--ease) both}
+.cta{display:flex;gap:12px;flex-wrap:wrap;animation:up 1.1s .9s var(--ease) both}
+.note{margin-top:18px;font-size:14px;color:var(--mut);animation:up 1.1s 1.05s var(--ease) both}
+.stage{position:relative;perspective:1200px;animation:up 1.4s .5s var(--ease) both}
+.win{background:var(--card);border:1px solid var(--line);border-radius:26px;box-shadow:var(--sh);backdrop-filter:blur(30px);overflow:hidden;transition:transform .25s ease-out;transform-style:preserve-3d}
+.bar{display:flex;align-items:center;gap:7px;padding:14px 18px;border-bottom:1px solid var(--line);font-size:13px;color:var(--mut)}
+.bar i{width:11px;height:11px;border-radius:50%;background:#ff9d9d}.bar i:nth-child(2){background:#ffdc8a}.bar i:nth-child(3){background:#a6eac0}.bar span{margin-left:auto;margin-right:auto}
+.wb{padding:18px;display:grid;gap:14px}
+.devs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dev{padding:12px 14px;border-radius:18px;background:var(--card);border:1px solid var(--line);font-size:14px;line-height:1.3}
+.dev small{display:block;color:var(--mut);font-size:12px}
+.dev.on{border-color:var(--acc);box-shadow:0 0 0 4px rgba(122,104,240,.14)}
+.tx{padding:16px;border-radius:20px;background:linear-gradient(160deg,rgba(205,188,255,.35),rgba(180,240,218,.3));border:1px solid var(--line)}
+.row{display:flex;justify-content:space-between;font-weight:600;font-size:15px}
+.prog{height:8px;border-radius:9px;background:var(--line);margin:12px 0;overflow:hidden}
+.prog i{display:block;height:100%;width:0;border-radius:9px;background:linear-gradient(90deg,#9a88ff,#5fe0b8)}
+.map{display:grid;grid-template-columns:repeat(24,1fr);gap:3px}
+.map i{aspect-ratio:1;border-radius:3px;background:var(--line);transition:background .4s,transform .4s var(--spring)}
+.map i.on{background:linear-gradient(135deg,#9a88ff,#5fe0b8);transform:scale(1.08)}
+.spark{width:100%;height:56px;margin-top:10px}
+.meta{display:flex;gap:14px;font-size:12.5px;color:var(--mut);margin-top:4px}.meta b{color:var(--ink)}
+.chip{position:absolute;padding:10px 16px;border-radius:16px;font-size:13.5px;font-weight:600;background:var(--card);border:1px solid var(--line);backdrop-filter:blur(20px);box-shadow:var(--sh);animation:bob 5s ease-in-out infinite}
+.chip.a{top:-18px;right:-8px}.chip.b{bottom:30px;left:-26px;animation-delay:-2s}
+@keyframes bob{50%{transform:translateY(-12px)}}
+.ph{position:absolute;right:-22px;bottom:-34px;width:118px;padding:10px;border-radius:28px;background:var(--card);border:1px solid var(--line);box-shadow:var(--sh);backdrop-filter:blur(24px);font-size:11px;line-height:1.3;animation:bob 6s ease-in-out infinite -1s}
+.ph div{height:84px;border-radius:18px;background:linear-gradient(160deg,var(--lav),var(--mint));display:grid;place-items:center;text-align:center;color:#2b2550;font-weight:600}
+h2{font-size:clamp(2rem,4.6vw,3.4rem);letter-spacing:-.04em;line-height:1.05;font-weight:700;max-width:14em}
+.lead{color:var(--mut);margin:14px 0 44px;max-width:34em;font-size:1.1rem}
+.grid{display:grid;grid-template-columns:repeat(6,1fr);gap:18px}
+.c{grid-column:span 2;position:relative;overflow:hidden;padding:28px;border-radius:32px;background:var(--card);border:1px solid var(--line);backdrop-filter:blur(20px);min-height:310px;transition:transform .5s var(--spring),box-shadow .5s}
+.c.w{grid-column:span 3}
+.c:hover{transform:translateY(-6px);box-shadow:var(--sh)}
+.c::before{content:"";position:absolute;inset:0;background:radial-gradient(380px circle at var(--mx,50%) var(--my,0),rgba(160,140,255,.24),transparent 60%);opacity:0;transition:opacity .4s}
+.c:hover::before{opacity:1}
+.c h3{font-size:24px;letter-spacing:-.03em;line-height:1.15;position:relative}
+.c p{color:var(--mut);font-size:15px;margin-top:8px;max-width:34ch;position:relative}
+.viz{position:relative;height:120px;margin-top:22px}
+.radar span{position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-9px;border-radius:50%;border:2px solid var(--acc);opacity:0;animation:ping 3.6s infinite}
+.radar span:nth-child(2){animation-delay:1.2s}.radar span:nth-child(3){animation-delay:2.4s}
+@keyframes ping{0%{transform:scale(1);opacity:.7}100%{transform:scale(8);opacity:0}}
+.radar b{position:absolute;left:50%;top:50%;width:18px;height:18px;margin:-9px;border-radius:50%;background:var(--acc)}
+.radar em{position:absolute;width:12px;height:12px;border-radius:50%;animation:pop 3.6s infinite both}
+@keyframes pop{0%,20%{transform:scale(0)}30%,90%{transform:scale(1)}100%{transform:scale(0)}}
+.lane{height:11px;border-radius:9px;margin:14px 0;background:repeating-linear-gradient(90deg,var(--c) 0 22px,transparent 22px 34px);background-size:68px 100%;animation:run var(--t) linear infinite;-webkit-mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+@keyframes run{to{background-position:68px 0}}
+.cells{display:grid;grid-template-columns:repeat(15,1fr);gap:4px;align-content:center;height:100%}
+.cells i{aspect-ratio:1;border-radius:4px;background:var(--line);animation:fill 7s infinite}
+@keyframes fill{0%,5%{background:var(--line)}25%,70%{background:var(--mint)}80%,100%{background:var(--line)}}
+.fan{width:100%;height:100%}
+.fan path{stroke:var(--acc);stroke-width:2;fill:none;stroke-dasharray:5 7;animation:dash 1.2s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-24}}
+.fan circle{fill:var(--lav)}.fan .m{fill:var(--acc)}
+.clip{display:flex;align-items:center;justify-content:space-between;height:100%;gap:10px}
+.clip div{width:38%;height:90px;border-radius:16px;background:var(--card);border:1px solid var(--line);padding:12px;display:grid;gap:7px;align-content:start}
+.clip div i{height:7px;border-radius:4px;background:var(--lav)}.clip div i:nth-child(2){width:70%;background:var(--pink)}.clip div i:nth-child(3){width:45%;background:var(--mint)}
+.clip u{flex:1;height:2px;position:relative;background:var(--line)}
+.clip u::after{content:"";position:absolute;top:-4px;width:10px;height:10px;border-radius:50%;background:var(--acc);animation:fly 2.4s var(--ease) infinite}
+@keyframes fly{from{left:0;opacity:0}15%{opacity:1}to{left:calc(100% - 10px);opacity:0}}
+.qr{display:grid;grid-template-columns:repeat(13,1fr);width:120px;height:120px;gap:2px;margin-left:auto;position:relative;padding:8px;border-radius:16px;background:#fff;overflow:hidden}
+.qr i{background:#2b2550;border-radius:2px}.qr i.o{background:transparent}
+.qr::after{content:"";position:absolute;left:0;right:0;height:26px;top:-26px;background:linear-gradient(transparent,rgba(122,104,240,.5));animation:scan 2.6s ease-in-out infinite}
+@keyframes scan{to{top:120px}}
+.hs{list-style:none;padding:0;display:grid;gap:9px;font-size:14px;margin-top:6px}
+.hs li{display:flex;gap:10px;align-items:center;padding:9px 14px;border-radius:14px;background:var(--card);border:1px solid var(--line);animation:tick 8s infinite;animation-delay:calc(var(--i)*.9s);opacity:.35}
+.hs li::before{content:"✓";display:grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--mint);color:#16543f;font-size:12px;font-weight:700}
+@keyframes tick{0%{opacity:.35;transform:translateX(-8px)}8%,60%{opacity:1;transform:none}75%,100%{opacity:.35}}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.st{padding:30px;border-radius:32px;background:var(--card);border:1px solid var(--line)}
+.st span{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;font-weight:700;color:#2b2550;background:linear-gradient(135deg,var(--lav),var(--sky));margin-bottom:18px;transition:transform .5s var(--spring)}
+.st:hover span{transform:rotate(-12deg) scale(1.15)}
+.st h3{font-size:22px;letter-spacing:-.03em}.st p{color:var(--mut);margin-top:6px;font-size:15px}
+.dl{margin:60px auto 0;max-width:1072px;padding:64px 28px;text-align:center;border-radius:40px;background:linear-gradient(135deg,rgba(205,188,255,.7),rgba(189,225,255,.7) 45%,rgba(180,240,218,.7));border:1px solid var(--line);position:relative;overflow:hidden;color:#1d1d2b}
+.dl h2{margin:auto}.dl p{margin:14px auto 28px;max-width:32em;color:#46465a}
+.dl .btn.g{color:#1d1d2b}
+.plat{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px;font-size:14px;color:#46465a}
+.plat span{padding:6px 14px;border-radius:99px;background:rgba(255,255,255,.55)}
+.plat .soon{background:linear-gradient(100deg,rgba(255,255,255,.55) 40%,#fff 50%,rgba(255,255,255,.55) 60%);background-size:250%;animation:shift 3s linear infinite}
+details{border-bottom:1px solid var(--line);padding:20px 4px}
+summary{cursor:pointer;font-weight:600;font-size:18px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:26px;line-height:1;color:var(--acc);transition:transform .4s var(--spring)}
+details[open] summary::after{transform:rotate(135deg)}
+details p{color:var(--mut);margin-top:10px;max-width:48em;animation:up .5s var(--ease)}
+footer{max-width:1120px;margin:70px auto 0;padding:30px 24px 140px;display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between;color:var(--mut);font-size:14px;border-top:1px solid var(--line)}
+footer div{display:flex;gap:22px;flex-wrap:wrap}footer a:hover{color:var(--ink)}
+.js .rv{opacity:0;transform:translateY(34px) scale(.98);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:calc(var(--i,0)*90ms)}
+.js .rv.in{opacity:1;transform:none}
+@media(max-width:900px){.hero{grid-template-columns:1fr;min-height:0;padding-bottom:60px}.stage{margin:20px 14px 40px}.grid{grid-template-columns:1fr 1fr}.c,.c.w{grid-column:span 2}.steps{grid-template-columns:1fr}nav .l{display:none}.ph{right:-8px}.chip.b{left:-8px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.js .rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="blobs" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<div class="orbs" aria-hidden="true"></div>
+<div class="waves" aria-hidden="true"><svg viewBox="0 0 2880 120" preserveAspectRatio="none" style="--h:150px;--t:56s;--o:0.4;--f:var(--lav);--d:normal;--s:11s"><path d="M0 50C240 10 480 10 720 50S1200 90 1440 50C1680 10 1920 10 2160 50S2640 90 2880 50V120H0Z"/></svg><svg viewBox="0 0 2880 120" preserveAspectRatio="none" style="--h:120px;--t:40s;--o:0.38;--f:var(--sky);--d:reverse;--s:9s"><path d="M0 50C240 10 480 10 720 50S1200 90 1440 50C1680 10 1920 10 2160 50S2640 90 2880 50V120H0Z"/></svg><svg viewBox="0 0 2880 120" preserveAspectRatio="none" style="--h:90px;--t:28s;--o:0.45;--f:var(--mint);--d:normal;--s:7s"><path d="M0 50C240 10 480 10 720 50S1200 90 1440 50C1680 10 1920 10 2160 50S2640 90 2880 50V120H0Z"/></svg></div>
+
+<nav aria-label="Main">
+  <b><span aria-hidden="true">⛴️</span>OmniFerry</b>
+  <a class="l" href="#features">Features</a><a class="l" href="#how">How it works</a><a class="l" href="#security">Security</a><a class="l" href="#faq">Help</a>
+  <button class="btn g" id="th" aria-label="Toggle light and dark theme">☾</button>
+  <a class="btn p s" href="https://github.com/rhshourav/OmniFerry/releases/latest">Download</a>
+</nav>
+
+<main>
+<section class="hero">
+  <div>
+    <h1><span class="l" style="--i:0">Send anything.</span><span class="l gr" style="--i:1">Skip the cloud.</span></h1>
+    <p class="sub">OmniFerry moves files and clipboard between your Windows PC and Android phone over your own Wi-Fi. Devices find each other, transfers survive interruptions, and nothing touches a server.</p>
+    <div class="cta">
+      <a class="btn p" href="https://github.com/rhshourav/OmniFerry/releases/latest">Download for Windows</a>
+      <a class="btn g" href="https://github.com/rhshourav/OmniFerry">View on GitHub</a>
+    </div>
+    <p class="note">Free. No account. Windows 10 and 11. Android is in development.</p>
+  </div>
+
+  <div class="stage" id="stage" aria-hidden="true">
+    <div class="win" id="win">
+      <div class="bar"><i></i><i></i><i></i><span>OmniFerry · Devices</span></div>
+      <div class="wb">
+        <div class="devs">
+          <div class="dev on"><b>Pixel 8</b><small>Android, paired</small></div>
+          <div class="dev"><b>Living room PC</b><small>Windows</small></div>
+        </div>
+        <div class="tx">
+          <div class="row"><span>Holiday Photos</span><span id="pct">0%</span></div>
+          <div class="prog"><i id="pb"></i></div>
+          <div class="map" id="map"></div>
+          <svg class="spark" viewBox="0 0 300 56" preserveAspectRatio="none"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9a88ff" stop-opacity=".5"/><stop offset="1" stop-color="#9a88ff" stop-opacity="0"/></linearGradient></defs><path id="ar" fill="url(#g)"/><path id="ln" fill="none" stroke="#7a68f0" stroke-width="2.5" stroke-linejoin="round"/></svg>
+          <div class="meta"><span><b id="sp">0</b> MB/s</span><span>4 lanes</span><span>CRC checked</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="chip a">Clipboard synced</div>
+    <div class="chip b">Certificate pinned ✓</div>
+    <div class="ph"><div>Receiving<br>2.4 GB</div></div>
+  </div>
+</section>
+
+<section id="features">
+  <h2 class="rv">Everything you need to move things between devices.</h2>
+  <p class="lead rv">Built to feel instant when it works, and to recover quietly when it doesn't.</p>
+  <div class="grid">
+    <article class="c w rv"><h3>Nearby devices just appear</h3><p>Discovery runs over your network. If Wi-Fi blocks it, Bluetooth or a typed IP address still gets you connected.</p>
+      <div class="viz radar"><span></span><span></span><span></span><b></b><em style="left:18%;top:25%;background:var(--mint);animation-delay:.3s"></em><em style="left:78%;top:35%;background:var(--pink);animation-delay:.8s"></em><em style="left:62%;top:78%;background:var(--peach);animation-delay:1.3s"></em></div></article>
+    <article class="c w rv" style="--i:1"><h3>Uses your whole Wi-Fi link</h3><p>Each file travels over several encrypted connections at once, so one slow lane never holds the rest back.</p>
+      <div class="viz"><div class="lane" style="--c:var(--lav);--t:1.1s"></div><div class="lane" style="--c:var(--mint);--t:.8s"></div><div class="lane" style="--c:var(--pink);--t:1.4s"></div><div class="lane" style="--c:var(--sky);--t:.95s"></div></div></article>
+    <article class="c rv"><h3>Picks up where it stopped</h3><p>Lost signal or restarted app? The transfer continues from the exact chunk.</p><div class="viz"><div class="cells" id="cells"></div></div></article>
+    <article class="c rv" style="--i:1"><h3>One send, many devices</h3><p>Select several cards and send together. Folders keep their structure.</p>
+      <div class="viz"><svg class="fan" viewBox="0 0 220 120"><path d="M30 60 C90 60 100 20 190 20"/><path d="M30 60 L190 60"/><path d="M30 60 C90 60 100 100 190 100"/><circle class="m" cx="30" cy="60" r="11"/><circle cx="190" cy="20" r="9"/><circle cx="190" cy="60" r="9"/><circle cx="190" cy="100" r="9"/></svg></div></article>
+    <article class="c rv" style="--i:2"><h3>Copy here, paste there</h3><p>Text and images sync between paired devices, in both directions.</p><div class="viz"><div class="clip"><div><i></i><i></i><i></i></div><u></u><div><i></i><i></i><i></i></div></div></div></article>
+    <article class="c w rv"><h3>No app on the other end?</h3><p>Show a QR code. Their phone opens a web page to upload and download straight from the browser.</p><div class="viz"><div class="qr" id="qr"></div></div></article>
+    <article class="c w rv" style="--i:1"><h3>Private by design</h3><p>Data goes straight between your devices over TLS. Unknown devices must be approved first.</p>
+      <ul class="hs"><li style="--i:0">Encrypted connection opened</li><li style="--i:1">Device fingerprint matched</li><li style="--i:2">Signed handshake verified</li><li style="--i:3">You approved the transfer</li></ul></article>
+  </div>
+</section>
+
+<section id="how">
+  <h2 class="rv">Three steps. No setup screen.</h2>
+  <p class="lead rv">Open the app on both devices and you're ready.</p>
+  <div class="steps">
+    <div class="st rv"><span>1</span><h3>Open OmniFerry</h3><p>Both devices on the same Wi-Fi. Allow Private networks when Windows Firewall asks.</p></div>
+    <div class="st rv" style="--i:1"><span>2</span><h3>Choose a device</h3><p>Drop files or a folder on its card, or click Send. Select several cards to send to all.</p></div>
+    <div class="st rv" style="--i:2"><span>3</span><h3>Approve and receive</h3><p>The receiver approves once. Choose Always trust for your own devices. Files land in Downloads\OmniFerry.</p></div>
+  </div>
+</section>
+
+<section id="security">
+  <h2 class="rv">Honest about what it protects.</h2>
+  <p class="lead rv">TLS protects everything on the wire, devices are verified by certificate fingerprint, and file names can never write outside your download folder. Anyone on your Wi-Fi can see a running device's name, so choose a neutral name on shared networks. <a href="https://github.com/rhshourav/OmniFerry/blob/main/docs/security.md" style="color:var(--acc);font-weight:600">Read the full security notes</a>.</p>
+</section>
+
+<section id="faq">
+  <h2 class="rv">Quick answers</h2>
+  <div class="rv" style="margin-top:34px">
+    <details><summary>A device doesn't show up</summary><p>Check both are on the same Wi-Fi. Guest networks and AP isolation block discovery. Use Connect by IP on the Devices page, or turn on Bluetooth discovery in Settings.</p></details>
+    <details><summary>It can't connect after installing</summary><p>Allow OmniFerry on Private networks in Windows Security, under Firewall, then Allow an app.</p></details>
+    <details><summary>Transfers feel slow</summary><p>Wi-Fi is the limit. Try the 5 GHz band, or raise Parallel connections in Settings.</p></details>
+  </div>
+  <div class="dl rv">
+    <h2>Ready when you are.</h2>
+    <p>Download the zip, extract it, and run OmniFerry.exe. Verify it against SHA256SUMS.txt if you like.</p>
+    <a class="btn p" href="https://github.com/rhshourav/OmniFerry/releases/latest">Download for Windows</a> <a class="btn g" href="https://github.com/rhshourav/OmniFerry/issues/new/choose">Share feedback</a>
+    <div class="plat"><span>Windows 10 / 11: available</span><span class="soon">Android: in development</span></div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <span>Made by <a href="https://github.com/rhshourav" style="color:var(--ink)">rhshourav</a>. All rights reserved.</span>
+  <div><a href="https://github.com/rhshourav/OmniFerry/blob/main/docs/protocol.md">Protocol</a><a href="https://github.com/rhshourav/OmniFerry/blob/main/docs/README.md">Docs</a><a href="https://github.com/rhshourav/OmniFerry/blob/main/SECURITY.md">Security</a><a href="https://github.com/rhshourav/OmniFerry/blob/main/PRIVACY.md">Privacy</a><a href="https://github.com/rhshourav/OmniFerry/blob/main/LICENSE">License</a></div>
+</footer>
+
 <script>
-const $=id=>document.getElementById(id),R=matchMedia("(prefers-reduced-motion:reduce)").matches;
-fetch("https://api.github.com/repos/rhshourav/OmniFerry/releases?per_page=20").then(r=>r.json()).then(rs=>{
- const r=rs.find(x=>!x.draft&&!x.prerelease&&/^windows-v/.test(x.tag_name)),a=r&&r.assets.find(x=>/win-x64\.zip$/.test(x.name));
- if(a){$("dl").href=a.browser_download_url;$("ver").textContent="Version "+r.tag_name.replace("windows-v","")+" \u00b7 "+(a.size/1048576).toFixed(0)+" MB \u00b7 Windows 10 and 11, x64"}
-}).catch(()=>{});
-const m=$("map"),N=40;for(let i=0;i<N;i++)m.appendChild(document.createElement("i"));
-let p=0;function tick(){p=p>=100?0:p+(R?100:1.6);const n=Math.floor(p/100*N);[...m.children].forEach((c,i)=>c.classList.toggle("on",i<n));
- $("bar").style.width=p+"%";$("pc").textContent=Math.floor(p)+"%";$("sp").textContent=(p>0&&p<100?(62+Math.sin(p/6)*14).toFixed(1):"0")+" MB/s"}
-tick();if(!R)setInterval(tick,90);
-const io=new IntersectionObserver(es=>es.forEach(e=>e.isIntersecting&&(e.target.classList.add("in"),io.unobserve(e.target))),{threshold:.15});
-document.querySelectorAll(".rv").forEach((e,i)=>{e.style.transitionDelay=(i%3)*80+"ms";io.observe(e)});
-</script></body></html>
+const $=s=>document.querySelector(s),mk=(p,n,f)=>{for(let i=0;i<n;i++){const e=document.createElement('i');f&&f(e,i);p.appendChild(e)}};
+/* ambient orbs */
+const cl=['lav','mint','pink','sky','peach'];
+mk($('.orbs'),16,(e,i)=>{const s=e.style,R=Math.random;s.setProperty('--x',R()*100+'vw');s.setProperty('--s',30+R()*90+'px');s.setProperty('--t',34+R()*34+'s');s.setProperty('--d',-R()*60+'s');s.setProperty('--w',R()*120-60+'px');s.setProperty('--c','var(--'+cl[i%5]+')')});
+/* theme */
+const root=document.documentElement,th=$('#th');
+const dark=()=>root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;
+const icon=()=>th.textContent=dark()?'☀':'☾';icon();
+th.onclick=()=>{root.dataset.theme=dark()?'light':'dark';icon();try{localStorage.setItem('of-theme',root.dataset.theme)}catch(e){}};
+/* reveal */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.15});
+document.querySelectorAll('.rv').forEach(e=>io.observe(e));
+/* spotlight on cards */
+document.querySelectorAll('.c').forEach(c=>c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();c.style.setProperty('--mx',e.clientX-r.left+'px');c.style.setProperty('--my',e.clientY-r.top+'px')}));
+/* tilt */
+const st=$('#stage'),win=$('#win');
+if(matchMedia('(hover:hover)').matches){st.addEventListener('pointermove',e=>{const r=st.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;win.style.transform=`rotateY(${x*10}deg) rotateX(${-y*8}deg)`});st.addEventListener('pointerleave',()=>win.style.transform='')}
+/* mini visuals */
+mk($('#cells'),60,(e,i)=>e.style.animationDelay=(i*.07)+'s');
+const qr=$('#qr'),fin=(x,y)=>[[0,0],[10,0],[0,10]].some(([a,b])=>x>=a&&x<a+3&&y>=b&&y<b+3);
+mk(qr,169,(e,i)=>{const x=i%13,y=(i/13|0);const f=[[0,0],[10,0],[0,10]].find(([a,b])=>x>=a&&x<a+3&&y>=b&&y<b+3);const on=f?!(x-f[0]===1&&y-f[1]===1)||true:Math.random()>.52;if(!on)e.className='o'});
+/* hero transfer demo */
+const map=$('#map'),N=96;mk(map,N);
+const cs=[...map.children],ord=[...Array(N).keys()].sort(()=>Math.random()-.5),pts=Array(40).fill(34);
+let p=0,hold=0;
+setInterval(()=>{
+  if(hold){if(--hold===0){p=0;cs.forEach(c=>c.classList.remove('on'))}}else{p=Math.min(100,p+.8+Math.random()*1.6);if(p>=100)hold=18}
+  const n=Math.round(p/100*N);for(let i=0;i<N;i++)cs[ord[i]].classList.toggle('on',i<n);
+  $('#pb').style.width=p+'%';$('#pct').textContent=Math.round(p)+'%';
+  const s=hold?0:38+Math.sin(Date.now()/700)*9+Math.random()*7;pts.push(s);pts.shift();
+  $('#sp').textContent=Math.round(s);
+  const d=pts.map((v,i)=>(i?'L':'M')+(i*300/39).toFixed(1)+' '+(54-v*1.05).toFixed(1)).join('');
+  $('#ln').setAttribute('d',d);$('#ar').setAttribute('d',d+'L300 56L0 56Z');
+},120);
+</script>
+</body>
+</html>
