@@ -2,6 +2,8 @@
 
 **Fast, zero-setup file and clipboard sharing between Windows and Android, over your own network.**
 
+**Website: [rhshourav.github.io/OmniFerry](https://rhshourav.github.io/OmniFerry/)**
+
 [![Latest release](https://img.shields.io/github/v/release/rhshourav/OmniFerry?label=release)](https://github.com/rhshourav/OmniFerry/releases)
 
 Pick files, pick a device, done. No accounts, no cloud upload, no cables. Devices on the same Wi-Fi find each other
