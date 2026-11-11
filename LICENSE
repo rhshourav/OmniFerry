@@ -1,0 +1,16 @@
+OmniFerry - Copyright (c) 2026 rhshourav. All rights reserved.
+
+TEMPLATE: have this reviewed (ideally by a lawyer) before relying on it.
+
+You may download, install and use unmodified copies of OmniFerry released in this repository, for personal or
+commercial purposes, free of charge.
+
+You may not: sell or sublicense the software; redistribute modified versions; remove copyright notices; or
+reverse engineer, decompile or disassemble the software, except to the extent that applicable law expressly
+permits despite this restriction.
+
+The protocol documentation in the docs/ folder may be used to build compatible software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY ARISING FROM THE USE OF THE SOFTWARE.

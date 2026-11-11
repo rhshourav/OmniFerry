@@ -1,0 +1,30 @@
+name: Bug report
+description: Something doesn't work as expected
+labels: [bug]
+body:
+  - type: input
+    id: version
+    attributes: { label: OmniFerry version, placeholder: "0.1.0" }
+    validations: { required: true }
+  - type: input
+    id: os
+    attributes: { label: Windows / Android version, placeholder: "Windows 11 23H2 / Android 14" }
+    validations: { required: true }
+  - type: textarea
+    id: what
+    attributes: { label: What happened, description: "What did you expect instead?" }
+    validations: { required: true }
+  - type: textarea
+    id: steps
+    attributes: { label: Steps to reproduce }
+  - type: dropdown
+    id: network
+    attributes:
+      label: Network
+      options: [Home Wi-Fi, Office or campus Wi-Fi, Guest Wi-Fi, Phone hotspot, Wired, Other]
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log excerpt
+      description: "From %APPDATA%\\OmniFerry\\logs\\omniferry.log. Remove anything private."
+      render: text
