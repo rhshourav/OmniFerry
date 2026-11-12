@@ -29,10 +29,11 @@ automatically and move data directly between them.
 
 ## Install (Windows)
 
-1. Download `OmniFerry-<version>-win-x64.zip` from the [latest release](https://github.com/rhshourav/OmniFerry/releases/latest) and extract it.
-2. Run `OmniFerry\OmniFerry.exe`. When Windows Firewall asks, allow **Private networks**.
-3. Verify the download if you like: compare the SHA-256 of the zip with `SHA256SUMS.txt` (`Get-FileHash <zip>`).
+1. Download **OmniFerry-Setup-<version>-x64.exe** from the [latest release](https://github.com/rhshourav/OmniFerry/releases/latest) and run it. No administrator rights are needed.
+2. Windows Firewall asks once when OmniFerry first starts: allow **Private networks**.
+3. Prefer no installer? Each release also has a portable `.zip`: extract and run `OmniFerry.exe`.
 
+Uninstall from *Settings -> Apps*; the uninstaller asks whether to keep your settings. Check a download with `SHA256SUMS.txt` (`Get-FileHash <file>`).
 Winget (`winget install rhshourav.OmniFerry`) will work once the package is accepted into the Windows Package Manager repository.
 
 ## Using it
