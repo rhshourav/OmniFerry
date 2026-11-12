@@ -1,6 +1,6 @@
 # Changelog
 
-Release notes are taken from the matching section when a `windows-vX.Y.Z` / `android-vX.Y.Z` tag is released.
+Release notes are taken from the matching `## [<platform> X.Y.Z]` section (windows, android, linux) when that platform is released.
 Write user-facing text only: this file is published to the public repository.
 
 ## [windows 0.1.0] - Unreleased
