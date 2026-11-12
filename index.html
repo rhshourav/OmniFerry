@@ -1,11 +1,17 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>OmniFerry: send files and clipboard between Windows and Android</title>
 <meta name="description" content="Fast, zero-setup file and clipboard sharing between Windows and Android over your local network. Encrypted, resumable, 1-to-many.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='88'>⛴️</text></svg>">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#f6f4ff" media="(prefers-color-scheme:light)"><meta name="theme-color" content="#0c0b13" media="(prefers-color-scheme:dark)">
+<link rel="canonical" href="https://rhshourav.github.io/OmniFerry/">
+<meta property="og:type" content="website"><meta property="og:title" content="OmniFerry: send files and clipboard between Windows and Android">
+<meta property="og:description" content="Zero-setup, encrypted, resumable sharing over your own Wi-Fi. No cloud.">
+<meta property="og:url" content="https://rhshourav.github.io/OmniFerry/"><meta property="og:image" content="https://rhshourav.github.io/OmniFerry/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
 <script>document.documentElement.classList.add('js');try{var t=localStorage.getItem('of-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <style>
 :root{--bg:#f6f4ff;--ink:#1d1d1f;--mut:#6a6a73;--card:rgba(255,255,255,.64);--line:rgba(60,40,140,.09);--lav:#cdbcff;--mint:#b4f0da;--peach:#ffd1bc;--sky:#bde1ff;--pink:#ffc7e1;--acc:#7a68f0;--sh:0 24px 60px -24px rgba(90,70,200,.35);--ease:cubic-bezier(.22,1,.36,1);--spring:cubic-bezier(.34,1.56,.64,1)}
@@ -149,8 +155,8 @@ footer div{display:flex;gap:22px;flex-wrap:wrap}footer a:hover{color:var(--ink)}
 <nav aria-label="Main">
   <b><span aria-hidden="true">⛴️</span>OmniFerry</b>
   <a class="l" href="#features">Features</a><a class="l" href="#how">How it works</a><a class="l" href="#security">Security</a><a class="l" href="#faq">Help</a>
-  <button class="btn g" id="th" aria-label="Toggle light and dark theme">☾</button>
-  <a class="btn p s" href="https://github.com/rhshourav/OmniFerry/releases/latest">Download</a>
+  <button type="button" class="btn g" id="th" aria-label="Toggle light and dark theme">☾</button>
+  <a class="btn p s" href="https://github.com/rhshourav/OmniFerry/releases/latest" data-dl>Download</a>
 </nav>
 
 <main>
@@ -159,10 +165,10 @@ footer div{display:flex;gap:22px;flex-wrap:wrap}footer a:hover{color:var(--ink)}
     <h1><span class="l" style="--i:0">Send anything.</span><span class="l gr" style="--i:1">Skip the cloud.</span></h1>
     <p class="sub">OmniFerry moves files and clipboard between your Windows PC and Android phone over your own Wi-Fi. Devices find each other, transfers survive interruptions, and nothing touches a server.</p>
     <div class="cta">
-      <a class="btn p" href="https://github.com/rhshourav/OmniFerry/releases/latest">Download for Windows</a>
+      <a class="btn p" href="https://github.com/rhshourav/OmniFerry/releases/latest" data-dl>Download for Windows</a>
       <a class="btn g" href="https://github.com/rhshourav/OmniFerry">View on GitHub</a>
     </div>
-    <p class="note">Free. No account. Windows 10 and 11. Android is in development.</p>
+    <p class="note">Free. No account. Windows 10 and 11. Android is in development. <span id="ver"></span></p>
   </div>
 
   <div class="stage" id="stage" aria-hidden="true">
@@ -230,8 +236,8 @@ footer div{display:flex;gap:22px;flex-wrap:wrap}footer a:hover{color:var(--ink)}
   </div>
   <div class="dl rv">
     <h2>Ready when you are.</h2>
-    <p>Download the zip, extract it, and run OmniFerry.exe. Verify it against SHA256SUMS.txt if you like.</p>
-    <a class="btn p" href="https://github.com/rhshourav/OmniFerry/releases/latest">Download for Windows</a> <a class="btn g" href="https://github.com/rhshourav/OmniFerry/issues/new/choose">Share feedback</a>
+    <p>Run the installer (no administrator needed). Prefer no installer? Each release also has a portable zip. Check the download against SHA256SUMS.txt if you like. <code id="sum" style="display:block;font-size:12px;margin-top:6px;word-break:break-all"></code></p>
+    <a class="btn p" href="https://github.com/rhshourav/OmniFerry/releases/latest" data-dl>Download for Windows</a> <a class="btn g" href="https://github.com/rhshourav/OmniFerry/issues/new/choose">Share feedback</a>
     <div class="plat"><span>Windows 10 / 11: available</span><span class="soon">Android: in development</span></div>
   </div>
 </section>
@@ -239,7 +245,7 @@ footer div{display:flex;gap:22px;flex-wrap:wrap}footer a:hover{color:var(--ink)}
 
 <footer>
   <span>Made by <a href="https://github.com/rhshourav" style="color:var(--ink)">rhshourav</a>. All rights reserved.</span>
-  <div><a href="https://github.com/rhshourav/OmniFerry/blob/main/docs/protocol.md">Protocol</a><a href="https://github.com/rhshourav/OmniFerry/blob/main/docs/README.md">Docs</a><a href="https://github.com/rhshourav/OmniFerry/blob/main/SECURITY.md">Security</a><a href="https://github.com/rhshourav/OmniFerry/blob/main/PRIVACY.md">Privacy</a><a href="https://github.com/rhshourav/OmniFerry/blob/main/LICENSE">License</a></div>
+  <div><a href="https://github.com/rhshourav/OmniFerry/blob/main/CHANGELOG.md">Changelog</a><a href="https://github.com/rhshourav/OmniFerry/issues/new/choose">Report a problem</a><a href="https://github.com/rhshourav/OmniFerry/blob/main/docs/protocol.md">Protocol</a><a href="https://github.com/rhshourav/OmniFerry/blob/main/docs/README.md">Docs</a><a href="https://github.com/rhshourav/OmniFerry/blob/main/SECURITY.md">Security</a><a href="https://github.com/rhshourav/OmniFerry/blob/main/PRIVACY.md">Privacy</a><a href="https://github.com/rhshourav/OmniFerry/blob/main/LICENSE">License</a></div>
 </footer>
 
 <script>
@@ -277,6 +283,12 @@ setInterval(()=>{
   const d=pts.map((v,i)=>(i?'L':'M')+(i*300/39).toFixed(1)+' '+(54-v*1.05).toFixed(1)).join('');
   $('#ln').setAttribute('d',d);$('#ar').setAttribute('d',d+'L300 56L0 56Z');
 },120);
+/* latest release info: latest.json is written by the release pipeline; GitHub API is the fallback */
+(async()=>{try{let w;try{const r=await fetch('latest.json',{cache:'no-cache'});if(!r.ok)throw 0;w=(await r.json()).windows}catch(e){
+const rs=await (await fetch('https://api.github.com/repos/rhshourav/OmniFerry/releases?per_page=20')).json(),r=rs.find(x=>!x.draft&&!x.prerelease&&/^windows-v/.test(x.tag_name)),a=r&&r.assets.find(x=>/Setup-.*-x64\.exe$/.test(x.name));
+if(a)w={version:r.tag_name.replace('windows-v',''),url:a.browser_download_url,size:a.size}}
+if(!w)return;document.querySelectorAll('[data-dl]').forEach(a=>a.href=w.url);
+$('#ver').textContent='Version '+w.version+' \u00b7 '+Math.round(w.size/1048576)+' MB';if(w.sha256)$('#sum').textContent='SHA-256: '+w.sha256}catch(e){}})();
 </script>
 </body>
 </html>
