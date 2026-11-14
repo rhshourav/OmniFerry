@@ -1,0 +1,10 @@
+{
+  "windows": {
+    "version": "0.1.0",
+    "tag": "windows-v0.1.0",
+    "url": "https://github.com/rhshourav/OmniFerry/releases/download/windows-v0.1.0/OmniFerry-Setup-0.1.0-x64.exe",
+    "size": 35421051,
+    "sha256": "963b6a8afd38da1f4b5a6e475fe3d68a2f36c27978231a54a86eefde10bbd7cf",
+    "date": "2026-11-14"
+  }
+}
