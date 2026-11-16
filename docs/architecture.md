@@ -39,15 +39,15 @@ flowchart LR
 | `discovery.py`, `ble.py` | peer discovery |
 | `webserver.py`, `web_ui.py` | browser gateway |
 | `clipboard.py` | event-driven clipboard sync |
-| `core.py` | wires services to the UI, settings reactions, autostart |
+| `core.py` | wires services to the UI, settings reactions, autostart, one gateway link per network (`web_urls`) |
 | `config.py` | settings and trust store (atomic JSON writes) |
-| `ui/` | theme tokens, spring motion, widgets, cards, pages, tray, popups |
+| `ui/` | theme tokens (presets and any custom accent), spring motion, widgets, cards, pages, colour picker, tray, popups |
 
 ## Data on disk (`%APPDATA%\OmniFerry`)
 
 | Path | Contents |
 |---|---|
-| `settings.json` | user settings |
+| `settings.json` | user settings (`accent` is a preset name or `Custom`; `accent_custom` holds the `#rrggbb`) |
 | `trusted.json` | paired devices `{id: {name, fp, clip, added}}` |
 | `identity-cert.pem`, `identity-key.pem` | this device's identity |
 | `queue.json` | unfinished outgoing transfers |

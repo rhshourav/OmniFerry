@@ -3,6 +3,20 @@
 A small HTTP server lets a phone without OmniFerry upload to, and download from, the PC using only a browser.
 The PC shows a QR code containing `http://<lan-ip>:48656/?t=<token>`.
 
+## One code per network
+
+The server listens on every interface, so a phone can reach it through whichever network it shares with the PC.
+The **Share by QR** page therefore shows one code per network the PC is on (Wi-Fi, Ethernet, a second Ethernet
+adapter, VPN...), each with the adapter's name and address. Switch between them with the arrows beside the code
+(or the Left/Right keys, the mouse wheel, or the dots under the code). The list refreshes every 4 s while the page
+is open, so plugging in a cable or connecting a VPN adds its code without restarting, and the code you were on stays
+selected.
+
+Order: physical networks first (the one carrying the default route first), then VPN, then virtual adapters
+(WSL, Hyper-V, VMware, Docker). A full-tunnel VPN owns the default route but a phone is rarely on it, so VPN never
+outranks Wi-Fi or Ethernet. Adapter type is guessed from the adapter's name and driver description
+(`util.classify_adapter`). The token is the same for every code; **New link** rotates it for all of them.
+
 ## Authentication
 
 * Every request must carry the query parameter `t=<token>`; the token is 9 random bytes, URL-safe base64
