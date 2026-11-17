@@ -21,7 +21,10 @@ outranks Wi-Fi or Ethernet. Adapter type is guessed from the adapter's name and 
 
 * Every request must carry the query parameter `t=<token>`; the token is 9 random bytes, URL-safe base64
   (`secrets.token_urlsafe(9)`), compared in constant time.
-* Wrong or missing token: `403`. More than **10 failures from one IP in 60 s**: `429`.
+* Wrong or missing token: `403`. More than **10 wrong tokens from one IP in 60 s**: `429` for further wrong tokens.
+  A request with the **right** token is never throttled, so a phone can reload its own link as often as it likes.
+* Browsers ask for `/favicon.ico`, `/apple-touch-icon.png`, `/apple-touch-icon-precomposed.png` and `/robots.txt`
+  without a token on every page load. These get a plain `404` and never count as failures.
 * **New link** rotates the token immediately (old links stop working). Turning the gateway off stops the listener.
 * The page and all API calls are plain **HTTP**: browsers do not accept self-signed HTTPS from a QR scan without
   warnings. Only enable it on networks you trust. See [security.md](security.md).
@@ -50,3 +53,23 @@ All responses carry `Cache-Control: no-store` and `X-Content-Type-Options: nosni
 
 Responsive, light/dark via `prefers-color-scheme`, pastel accent. Uploads run two at a time with per-file progress
 (XHR), the file list polls `/api/state` every 3 s, and an expired token shows "Link expired. Scan the QR code again."
+
+## Troubleshooting: the phone cannot open the link
+
+The app checks itself at start-up (it requests its own page on this PC) and shows an error toast if the gateway is
+not answering. If it is answering but the phone still cannot reach it, the usual causes are, in order:
+
+1. **Windows Firewall.** Without a rule, Windows silently drops connections from other devices. The Share page shows
+   an **Allow OmniFerry** button when the rules are missing or in conflict (for example after clicking *Cancel* on
+   Windows' own first-run prompt, which creates a *block* rule that beats any allow rule). One click, one UAC prompt,
+   and OmniFerry creates its rules (see [security.md](security.md#windows-firewall-rules)). The installer does the same
+   during installation. Silent installs (winget, scripts) never show a prompt, so use the button once.
+2. **The phone is on a different network** than the code you scanned. When the PC is on several networks (Wi-Fi,
+   Ethernet, VPN), use the arrows beside the code and scan the one for the network the phone is connected to.
+3. **Client isolation / guest Wi-Fi.** Some routers stop devices on the same Wi-Fi from talking to each other. Nothing
+   on the PC can fix this; use a different network or turn the router's *AP isolation* off.
+4. **Phone ignores the Wi-Fi.** Android's *Switch to mobile data automatically* (or similar) can send the browser over
+   mobile data when the Wi-Fi has no internet; the PC's address is unreachable from there. Turn it off for this network.
+5. **Windows blocks all incoming connections.** If *Block all incoming connections* is ticked for the network profile
+   (Windows Security -> Firewall & network protection), no allow rule can help. OmniFerry never changes that setting.
+

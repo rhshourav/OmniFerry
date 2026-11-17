@@ -31,7 +31,28 @@
 | Stuck/dead peers | Handshake timeouts, 60 s lane idle timeout, TCP keepalive |
 | Approval spam | One prompt per batch; prompts time out and count as "Declined" |
 | Clipboard leaks | Skipped when the source marks content as excluded (`ExcludeClipboardContentFromMonitorProcessing`); accepted only from paired peers; size caps |
-| Web gateway guessing | Random token, constant-time compare, 10 failures/60 s per IP, instant revoke |
+| Web gateway guessing | Random token, constant-time compare, 10 wrong tokens/60 s per IP (the right token is never throttled), instant revoke |
+| Unwanted inbound connections | Windows Firewall rules that allow OmniFerry only from private/local addresses (below) |
+
+## Windows Firewall rules
+
+Windows drops unsolicited inbound connections, and its own first-run prompt is unreliable (*Cancel* creates a block
+rule that beats any allow rule; *Private only* leaves the app unreachable on the many Wi-Fi networks Windows files as
+Public). So the installer, or the **Allow OmniFerry** button on the Share page, runs `OmniFerry.exe --firewall-setup`
+elevated, which creates:
+
+| Rule | Allows |
+|---|---|
+| `OmniFerry LAN` | inbound for `OmniFerry.exe`, every network profile |
+| `OmniFerry LAN ports` | inbound TCP 48655 and 48656 (and any custom ports from Settings) |
+
+Both rules accept connections **only from** `LocalSubnet`, `10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`,
+`100.64.0.0/10` (carrier-grade NAT, Tailscale) and `169.254.0.0/16`. A stranger on a public network, or anything on
+the internet, cannot reach the app, even though the rule covers the Public profile. Setup first removes every older
+rule for the program, including the old installer's `OmniFerry` rule and any *block* rule Windows made itself.
+`--firewall-remove` (run by the uninstaller) deletes them all. Both write `logs\firewall.log`. The rules live in the
+Windows Firewall policy store, managed with `netsh advfirewall`: no registry values are written by hand. The installer
+records only a marker (`HKCU\Software\OmniFerry\FirewallRules`) so the uninstaller knows whether to ask for permission.
 
 ## Known limitations (be honest with users)
 
@@ -44,6 +65,9 @@
   ([android-guide.md](android-guide.md)).
 * **First contact is trust-on-first-use** unless the fingerprint is compared out of band. The approval prompt shows
   a device id fragment; a verification code (short authentication string) is a planned addition.
+* **Devices on your own LAN can reach the transfer port** (the firewall rule allows private addresses on every
+  profile). They still need the TLS handshake, and an unpaired sender triggers an approval prompt, but on a shared
+  network without client isolation anyone can see that the port is open.
 * **Web gateway is HTTP.** Anyone on the LAN who sees the QR code or URL can use it until you rotate the link or
   switch it off.
 * **A paired device can push clipboard content**, including content you did not copy deliberately. Unpair devices you no longer use.
