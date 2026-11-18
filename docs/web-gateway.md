@@ -56,6 +56,23 @@ Responsive, light/dark via `prefers-color-scheme`, pastel accent. Uploads run tw
 
 ## Troubleshooting: the phone cannot open the link
 
+**Start with *Check connection*** on the Share page. It tests the network whose code is on screen and lists, problems
+first, what it found and what it could not see:
+
+* does OmniFerry answer on exactly that address (a server problem, not a network one)?
+* has a phone ever opened the link through that address, or through a *different* one? The server records the address
+  each phone came in through; the code's icon gets a green dot once a phone has used it, so you can see which network
+  really works. "A phone reached Ethernet but not Wi-Fi" proves the phone and PC can talk and narrows the cause.
+* Windows' view of the network: Public / Private / Domain, and whether that profile has *Block all incoming
+  connections* on, which overrides every allow rule. A hardened **Public** profile is the usual reason Wi-Fi fails while
+  Ethernet (a Private network) works; the dialog offers **Make this network private** (one UAC prompt, only when you
+  click it; OmniFerry never changes the network type on its own).
+* OmniFerry's own firewall rules, and any other firewall product that is active.
+* whether Wi-Fi and Ethernet are on the same subnet (see 2b below).
+
+**Copy report** puts the whole result on the clipboard for a bug report.
+
+
 The app checks itself at start-up (it requests its own page on this PC) and shows an error toast if the gateway is
 not answering. If it is answering but the phone still cannot reach it, the usual causes are, in order:
 
@@ -66,6 +83,10 @@ not answering. If it is answering but the phone still cannot reach it, the usual
    during installation. Silent installs (winget, scripts) never show a prompt, so use the button once.
 2. **The phone is on a different network** than the code you scanned. When the PC is on several networks (Wi-Fi,
    Ethernet, VPN), use the arrows beside the code and scan the one for the network the phone is connected to.
+2b. **Ethernet works, Wi-Fi does not, both on the same router.** The phone reaches the PC's wired address through the
+   router, but the router (often in *guest network* or *AP / client isolation* mode) stops Wi-Fi devices from reaching
+   each other, which is what the PC's Wi-Fi address needs. Nothing on the PC can change that: use the Ethernet code, or
+   turn off AP isolation / client isolation in the router.
 3. **Client isolation / guest Wi-Fi.** Some routers stop devices on the same Wi-Fi from talking to each other. Nothing
    on the PC can fix this; use a different network or turn the router's *AP isolation* off.
 4. **Phone ignores the Wi-Fi.** Android's *Switch to mobile data automatically* (or similar) can send the browser over

@@ -54,6 +54,16 @@ rule for the program, including the old installer's `OmniFerry` rule and any *bl
 Windows Firewall policy store, managed with `netsh advfirewall`: no registry values are written by hand. The installer
 records only a marker (`HKCU\Software\OmniFerry\FirewallRules`) so the uninstaller knows whether to ask for permission.
 
+### Marking a network Private
+
+*Check connection* can run `OmniFerry.exe --network-private "<adapter>"` elevated, which calls
+`Set-NetConnectionProfile -InterfaceAlias '<adapter>' -NetworkCategory Private`. It only runs when you click **Make this
+network private**, and only for the one adapter shown. The adapter name is checked against a strict pattern (no quotes,
+`$`, backticks, `;`, `&`, `|`, `<`, `>` or line breaks) before it is placed in the command. Private is Microsoft's
+recommended setting for a home network, but it relaxes network discovery and file sharing defaults for that network:
+do not do it on a network you do not trust. It is not needed unless the Public profile is set to block all incoming
+connections.
+
 ## Known limitations (be honest with users)
 
 * **Transport confidentiality only.** TLS protects data on the wire, but a device you approve receives the file
