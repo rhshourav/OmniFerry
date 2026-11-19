@@ -17,6 +17,18 @@ Order: physical networks first (the one carrying the default route first), then 
 outranks Wi-Fi or Ethernet. Adapter type is guessed from the adapter's name and driver description
 (`util.classify_adapter`). The token is the same for every code; **New link** rotates it for all of them.
 
+## What the PC shares
+
+On the **Share by QR** tab, anything you drop **anywhere in the window** (or choose with the box: *Files...* or
+*Folder...*) is shared with browsers, and is never sent to a device from that tab. Files are served as they are. A
+**folder** is one entry in the list and downloads as a single ZIP built while it is sent: no temporary file, nothing
+held in memory, stored uncompressed (photos and videos do not shrink, and the PC should not burn a core for a phone).
+Symbolic links inside a shared folder are skipped, so a link cannot hand out what it points at. The folder is read when
+the phone downloads it, so changes made after it was added are included; files deleted in the meantime are left out. A
+folder's size and file count in the list are a snapshot from when it was added. Dropping something that is already
+shared does not add it twice. Dropping works even while the gateway is off (the list is kept; phones see it once the
+gateway is on).
+
 ## Authentication
 
 * Every request must carry the query parameter `t=<token>`; the token is 9 random bytes, URL-safe base64
@@ -34,8 +46,8 @@ outranks Wi-Fi or Ethernet. Adapter type is guessed from the adapter's name and 
 | Method | Path | Purpose |
 |---|---|---|
 | GET | `/` | the single-page mobile UI |
-| GET | `/api/state` | `{"host":"PC name","files":[{"id","name","size"}]}` |
-| GET | `/f/{id}` | download a shared file (HTTP Range supported; `Content-Disposition: attachment`) |
+| GET | `/api/state` | `{"host":"PC name","files":[{"id","name","size","dir","count"}]}` (`dir` is true for a folder; `count` is its number of files) |
+| GET | `/f/{id}` | download a shared file (HTTP Range supported; `Content-Disposition: attachment`), or a shared folder as one streamed ZIP |
 | POST | `/api/upload` | `multipart/form-data`, field `file` (repeat for several). Streamed to disk. Returns `{"ok":true,"saved":[...]}` |
 | POST | `/api/text` | JSON `{"text":"..."}` (max 200,000 chars). Delivered to the PC clipboard history |
 
