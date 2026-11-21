@@ -53,7 +53,34 @@ gateway is on).
 
 All responses carry `Cache-Control: no-store` and `X-Content-Type-Options: nosniff`.
 
+## Download behaviour
+
+Files are streamed by OmniFerry itself (not by the operating system's `sendfile`), so a large download behaves the same
+on every platform and uses one chunk of memory whatever its size.
+
+* `Accept-Ranges: bytes`, partial content (`206`, `Content-Range`) for a single range, `416` for one outside the file,
+  and the whole file for anything that is not a single range, as RFC 9110 says.
+* A strong `ETag` and `Last-Modified`. **`If-Range` is honoured**: a resumed download whose validator no longer matches
+  (the file changed while the download was paused) gets the whole new file with `200`, never a `206` slice of a different
+  version, which makes a browser fail and retry in a loop.
+* **No `Cache-Control: no-store`** on downloads (`private, no-transform`): browsers keep their resume information.
+* `Content-Type: application/octet-stream`, and a `Content-Disposition` with an ASCII `filename=` fallback next to
+  `filename*=UTF-8''...`. `HEAD` answers with the headers only.
+* The socket gets large buffers, `TCP_NODELAY` and keepalive; a phone that goes away mid-download costs nothing.
+* If a file shrinks while it is being sent, the connection is closed so the client sees a short download rather than
+  waiting for bytes that will never come.
+
+**"Insecure download blocked".** The gateway is plain HTTP on your own network (see Authentication below), and some
+phone browsers warn about that for large or archive downloads. Choose *Keep* / *Download anyway*: the data goes straight
+from your PC to your phone and never leaves the network. The page says so under the file list.
+
+While a big download uses the Wi-Fi the page's 3-second poll can fail; the page then says *Reconnecting to the PC...*
+and only shows *Link expired* for a real `403`.
+
 ## Upload behaviour
+
+* Before accepting an upload the PC checks the announced size against its free space (plus a 64 MiB margin, the same one
+  the device-to-device receiver keeps) and answers `507` immediately; the page shows *Not enough space on the PC*.
 
 * Files are written to `<download folder>\Web Uploads\` as `name.omniferry.tmp`, then atomically renamed;
   an interrupted upload deletes its temp file. Abandoned `*.tmp` files older than 1 h are purged at startup.

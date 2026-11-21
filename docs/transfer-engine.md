@@ -12,8 +12,10 @@ stateDiagram-v2
     ACTIVE --> DONE: receiver sends done
     ACTIVE --> PAUSED: user pause
     PAUSED --> QUEUED: resume
-    ACTIVE --> CONNECTING: network error, auto-retry (max 5)
-    CONNECTING --> FAILED: retries exhausted
+    ACTIVE --> CONNECTING: network error: wait for the device, retry without limit
+    CONNECTING --> CONNECTING: device still offline (1, 2, 3, then every 5 s, or at once when it announces itself)
+    CONNECTING --> ACTIVE: device back: resume from the chunks it already has
+    CONNECTING --> FAILED: refused for good (source file changed, device identity changed, receiver error)
     FAILED --> QUEUED: retry
     QUEUED --> CANCELED: cancel
     ACTIVE --> CANCELED: cancel / remote cancel
@@ -21,6 +23,21 @@ stateDiagram-v2
 
 Receiver side has one extra state: `INTERRUPTED` (partial data kept, waiting for the sender to reconnect).
 Only the **sender** can pause, resume or retry; the receiver can cancel.
+
+## Retrying: patient and aggressive
+
+A network error never ends a send. The transfer shows *Waiting for <device> to come online (trying again in Ns)* and
+keeps trying until the device is back, then continues from the chunks it already has. It stops only when you pause or
+cancel it, or for a real refusal: declined, source file changed, device identity changed, receiver error.
+
+* **Delays:** 1 s, 2 s, 3 s, then every 5 s (about +-20%); they start over whenever progress was made.
+* **Instant retry:** a device that announces itself over mDNS/BLE, or this PC's own network changing (Wi-Fi back, cable
+  plugged in, VPN toggled; checked every 3 s), wakes every send waiting for it at once.
+* **Dead links:** no acknowledgement for 15 s while chunks are in flight (or a chunk write that does not finish in 15 s)
+  fails the lane; TCP keepalive alone needs about a minute. A lane gives up after 3 fruitless reconnects and the whole
+  transfer takes over.
+* **Slots:** a send waits for its device *outside* the 3 concurrent-transfer slots (it probes with a full handshake
+  first), so any number of offline devices cannot starve transfers to devices that are online.
 
 ## Chunks and lanes
 

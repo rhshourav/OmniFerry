@@ -130,10 +130,21 @@ On `ok` both sides store `{id, name, fp}` as trusted.
 2. Queue every chunk index not in `have`. Open `min(accept.lanes, offer.lanes, missing)` lanes (at least 1).
 3. Per lane keep at most **8 unacknowledged chunks**. Mark a chunk delivered only on ACK. On NACK, resend.
 4. If a lane breaks, requeue its unacknowledged chunks and reconnect with backoff
-   (`min(0.25 * 2^fails, 4)` s). Give up after more than 6 consecutive fruitless reconnects.
+   (`min(0.25 * 2^fails, 4)` s). After more than **3** consecutive fruitless reconnects treat the whole transfer as
+   interrupted (step 6), which waits for the device properly instead of spending a minute here.
+   A lane is also broken when chunks are in flight and **no acknowledgement arrives for 15 s**, or when writing a chunk
+   does not complete within 15 s: a peer that vanished without closing the socket (Wi-Fi off, out of range) would
+   otherwise keep the connection looking alive for about a minute (TCP keepalive).
 5. Finish when `done` arrives on the control connection.
-6. If the whole transfer fails with a network error, retry from step 1 (up to 5 times, `min(2^attempt, 15)` s
-   apart). The new `accept.have` makes the retry resume exactly where it stopped.
+6. If the whole transfer fails with a network error, retry from step 1, **without any limit**. The new `accept.have`
+   makes the retry resume exactly where it stopped. The delay before retry *n* is 1 s, 2 s, 3 s, then 5 s for every
+   later one (each randomised by about 20%), and starts over whenever progress was made. A sender SHOULD:
+   * retry **immediately** when the device announces itself (mDNS or BLE) or when this device's own network changes,
+     instead of finishing the delay;
+   * wait for the device to accept a connection and finish the handshake **before taking one of the concurrent
+     transfer slots**, so devices that are offline never occupy the slots and block transfers to devices that are online;
+   * stop only on pause, cancel, a `reject`, a receiver `error`, a changed source file (step 7) or a changed device
+     identity (`AuthError`). A network error never ends a transfer by itself.
 7. Before starting, check the source file still has the size and mtime recorded at queue time.
 
 **Receiver**
@@ -169,7 +180,10 @@ characters, and join under the download folder. An empty result becomes `file`.
 | Handshake message timeout | 10 s |
 | Approval wait (sender) | 75 s |
 | Receiver lane idle timeout | 60 s |
-| Concurrent transfers (sender) | 3 |
+| Concurrent transfers (sender) | 3 (slots are taken only once the device is reachable) |
+| Lane reconnects before the transfer is retried as a whole | 3 |
+| Ack / chunk-write stall timeout (sender) | 15 s |
+| Whole-transfer retry delay | 1 s, 2 s, 3 s, then 5 s (about +-20%), no limit |
 
 ## 10. Conformance checklist
 
